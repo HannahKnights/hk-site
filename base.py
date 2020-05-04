@@ -1,7 +1,7 @@
 from conf.bottle import Bottle as _Bottle, run as _run, static_file as _static_file, \
     template as _template, error, abort, response, \
     ConfigDict, TEMPLATE_PATH
-from conf.helpers import include_abs_path_in_templates, get_abs_path
+from conf.helpers import include_abs_path_in_templates, get_abs_path, get_work_html_list
 
 import os
 import json as _json
@@ -36,8 +36,9 @@ def server_static(filepath):
 # ------
 
 @app.route('/')
-def display_home():
-    return _template('home')
+def take_me_home():
+    work_list_html = get_work_html_list(verbose = debug_mode)
+    return _template('home', work_list_html = work_list_html)
 
 
 # error handling
