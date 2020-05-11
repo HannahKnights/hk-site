@@ -2,9 +2,6 @@
     # scripts = ['/static/js/home.js']
     title = ''
     page_class = 'home'
-
-    print(work_list_html)
-
 %>
 % rebase('base.tpl', title = title, page_class = page_class)
 <div class="spinner_container">

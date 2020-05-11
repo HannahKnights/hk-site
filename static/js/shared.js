@@ -1,15 +1,46 @@
 // functions...
 
+var colours = [
+    'burlywood',
+    'cabetblue',
+    'chartreuse',
+    'indianred',
+    'darkorange',
+    'moccasin',
+    'yellow',
+    'mediumspringgreen',
+    'lightskyblue',
+    'cornflowerblue',
+    'sandybrown'
+]
+
+function roll_the_dice(min_num, max_num) {
+    /*
+        generates a random number for a range.
+
+        arguments:
+            - min number
+            - max number
+    */
+    return (Math.floor(Math.random() * (max_num - min_num + 1)) + min_num);
+};
+
 function clear_spinning_images() {
     // remove currently spinning images
-    $('img.front').addClass('hidden').removeClass('front');
-    $('img.back').addClass('hidden').removeClass('back');
+    $('.front').addClass('hidden').removeClass('front');
+    $('.back').addClass('hidden').removeClass('back');
 }
 
 function set_spinning_images() {
     // set new spinning images
-    $('img[data-attr="' + window.spin_count + '"]').addClass('front').removeClass('hidden');
-    $('img[data-attr="' + (window.spin_count + 1) + '"]').addClass('back').removeClass('hidden');
+    if ($('[data-attr="' + window.spin_count + '"]').hasClass('text')) {
+        $('[data-attr="' + window.spin_count + '"]').css('background-color', colours[roll_the_dice(0, colours.length-1)])
+    };
+    $('[data-attr="' + window.spin_count + '"]').addClass('front').removeClass('hidden');
+    if ($('[data-attr="' + (window.spin_count + 1) + '"]').hasClass('text')) {
+        $('[data-attr="' + (window.spin_count + 1) + '"]').css('background-color', colours[roll_the_dice(0, colours.length-1)])
+    };
+    $('[data-attr="' + (window.spin_count + 1) + '"]').addClass('back').removeClass('hidden');
 }
 
 function you_spin_me_round() {
@@ -63,7 +94,7 @@ function add_random_order_to_images() {
     // loop through images and add data-attr
     for (var i = 1; i <= window.image_count; i++) {
         image_num = image_list[i - 1].toString();
-        $($('img').get(i - 1)).attr('data-attr', image_num);
+        $(window.images.get(i - 1)).attr('data-attr', image_num);
     }
     fake_load_all_images();
 }
@@ -108,13 +139,13 @@ function here_we_begin() {
 
 $(document).ready( function() {
     // set spinning stuff values
-    window.images = $("img");
+    window.images = $("img").add($("div.text"));
     window.image_count = window.images.length;
     window.image_load_count = 0;
     window.spin_count = 1;
     window.ready_to_go = false;
     window.seconds_count = 0;
-    
+
     // spin stuff...
     here_we_begin();
 })
