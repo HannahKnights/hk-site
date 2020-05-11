@@ -3,6 +3,7 @@ from .timedate_helpers import create_timestamp, is_timestamp_diff_greater_than
 
 import os as _os
 import json as _json
+import math as _math
 
 # installs
 #import slugify as _slugify deprecated in python 3
@@ -29,16 +30,34 @@ def slugify(title):
 
 # API REQUESTS, CACHE FILE CREATION AND EXTRACTION
 
-def get_works_json_from_api():
+def call_api(page_number = None):
     """
     Using a get request query https://api.are.na/v2/channels/my-channel-name
     """
     works_json = ''
     try:
-        works_from_api = _requests.get(LIST_OR_WORKS_URL)
+        api_url = '%s%s' % (LIST_OR_WORKS_URL, ('?page=%s' % page_number if page_number else ''))
+        works_from_api = _requests.get(api_url)
         works_json = works_from_api.json()
     except:
         print('Unable to get work list from are.na')
+    return works_json
+
+def get_works_json_from_api():
+    """
+    Using a get request query https://api.are.na/v2/channels/my-channel-name
+    """
+    number_of_pages = 1
+    works_json = call_api()
+    total_number_of_works = works_json.get('length')
+    works_per_page =  works_json.get('per')
+    if total_number_of_works > works_per_page:
+        # we have multiple pages, we must loop through and get additional works
+        number_of_pages = _math.ceil(float(total_number_of_works) / works_per_page)
+        for page_number in range(2, int(number_of_pages + 1)):
+            additional_works_json = call_api(page_number = page_number)
+            if additional_works_json.get('contents'):
+                works_json['contents'] += additional_works_json['contents']
     return works_json
 
 def create_title_slug(title):
