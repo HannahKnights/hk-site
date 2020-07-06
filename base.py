@@ -41,6 +41,19 @@ def take_me_home():
     return _template('home', work_list_html = work_list_html)
 
 
+# archive
+# -------
+
+# 20122017
+@app.route('/archive/20122017')
+def archive_20122017():
+    return _template('20122017', is_cv = False)
+
+@app.route('/archive/20122017/cv')
+def archive_20122017():
+    return _template('20122017', is_cv = True)
+
+
 # error handling
 # --------------
 
