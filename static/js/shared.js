@@ -134,7 +134,13 @@ function here_we_begin() {
     var begin_page_event = setInterval(function(){
         check_loaded_images_and_start_spinning(begin_page_event);
     }, 1000)
-
+    $('#button.info').click(function()  {
+        if ($('#text').hasClass('hidden')) {
+            $('#text').removeClass('hidden');
+        } else {
+            $('#text').addClass('hidden');
+        }
+    })
 }
 
 $(document).ready( function() {

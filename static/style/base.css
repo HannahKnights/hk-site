@@ -74,6 +74,26 @@ div.text {
     backface-visibility: hidden;
 }
 
+.info {
+    opacity: 50%;
+    color: blue;
+}
+
+#button.info {
+    position: fixed;
+    right: 5px;
+    bottom: -45px;
+    font-size: 80px;
+    cursor: help;
+}
+
+#text.info {
+    position: fixed;
+    left: 5px;
+    top: 5px;
+    font-size: 40px;
+}
+
 /* spinning */
 
 @keyframes spin {
